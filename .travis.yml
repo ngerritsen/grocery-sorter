@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "8"
+script:
+  - npm run build
+after_success:
+  - find public -type f -exec curl -3 --ftp-create-dirs -T {} ftp://$FTP_USER:$FTP_PASSWORD@ftp.carehr.nl/public_html/nielsgerritsen/groceries/ \;
