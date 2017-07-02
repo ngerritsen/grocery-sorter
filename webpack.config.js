@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 const config = {
   entry: [
-    'bootstrap/js/src/modal',
+    'bootstrap/js/dist/modal',
     __dirname + '/src/main.js'
   ],
   output: {
