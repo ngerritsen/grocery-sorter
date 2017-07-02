@@ -1,0 +1,80 @@
+<title><%= htmlWebpackPlugin.options.title %></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="style.css">
+
+<main class="container-fluid">
+  <header class="jumbotron">
+    <h1 class="display-4"><%= htmlWebpackPlugin.options.title %></h1>
+    <p class="lead">Import the raw list, sort and export.</p>
+
+    <hr class="my-4">
+
+    <button
+      class="btn btn-primary btn-block"
+      data-toggle="modal"
+      data-target="#importModal"
+    >Import</button>
+
+    <button
+      class="btn btn-secondary btn-block"
+      data-toggle="modal"
+      data-target="#exportModal"
+      id="exportButton"
+      disabled
+    >Export</button>
+  </header>
+
+  <h2>List</h2>
+  <p>
+    <ul class="list-group" id="list">
+      <span class="text-muted">Nothing there yet!</span>
+    </ul>
+  </p>
+</main>
+
+<template id="listItemTemplate">
+  <li class="list-group-item list-item justify-content-between">
+    <span class="badge badge-pill badge-info js-badge"></span>
+  </li>
+</template>
+
+<div class="modal" id="importModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Import</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-in-modal" id="importForm">
+          <div class="form-group">
+            <label for="import">Paste list:</label>
+            <textarea class="form-control input" id="importInput"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Import</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="exportModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Export</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre class="pre-scrollable" id="listExport"></pre>
+        <button class="btn btn-secondary" id="clipboardButton">Copy to clipboard</button>
+      </div>
+    </div>
+  </div>
+</div>

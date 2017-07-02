@@ -1,0 +1,55 @@
+{
+  "name": "groceries",
+  "version": "1.0.0",
+  "description": "Sorts groceries",
+  "main": "main.js",
+  "scripts": {
+    "clean": "rm -Rf public",
+    "js": "NODE_ENV=production webpack",
+    "js:watch": "webpack --watch",
+    "scss": "node-sass src/style.scss --output public --output-style compressed",
+    "scss:watch": "node-sass src/style.scss --output public; node-sass src/style.scss --output public --watch",
+    "watch": "concurrently --kill-others --names 'js,scss' 'npm run js:watch' 'npm run scss:watch'",
+    "build": "npm run js; npm run scss"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngerritsen/grocery-sorter.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Niels Gerritsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngerritsen/grocery-sorter/issues"
+  },
+  "homepage": "https://github.com/ngerritsen/grocery-sorter#readme",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.5.2",
+    "concurrently": "^3.5.0",
+    "html-webpack-plugin": "^2.29.0",
+    "node-sass": "^4.5.3",
+    "webpack": "^3.0.0"
+  },
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "bootstrap": "^4.0.0-alpha.6",
+    "dragula": "^3.7.2",
+    "jquery": "^3.2.1"
+  },
+  "babel": {
+    "presets": [
+      ["env", {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7"]
+        }
+      }]
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  }
+}
