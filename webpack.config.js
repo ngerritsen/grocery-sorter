@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 const config = {
   entry: [
-    'bootstrap/js/dist/modal',
+    'bootstrap/dist/js/bootstrap.js',
     __dirname + '/src/main.js'
   ],
   output: {
@@ -28,7 +28,8 @@ const config = {
     }),
     new webpack.ProvidePlugin({
       jQuery: "jquery",
-      $: "jquery"
+      $: "jquery",
+      Tether: 'tether'
     })
   ]
 };
@@ -36,7 +37,7 @@ const config = {
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(new webpack.optimize.UglifyJsPlugin());
 } else {
-  config.devtool = 'inline-source-map';
+  config.devtool = 'source-map';
 }
 
 module.exports = config;
