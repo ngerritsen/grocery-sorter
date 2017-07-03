@@ -4,13 +4,14 @@
   "description": "Sorts groceries",
   "main": "main.js",
   "scripts": {
-    "clean": "rm -Rf public",
+    "clean": "rm -Rf public; mkdir public",
+    "css": "cp node_modules/dragula/dist/dragula.css public/dragula.css",
     "js": "NODE_ENV=production webpack",
     "js:watch": "webpack --watch",
     "scss": "node-sass src/style.scss --output public --output-style compressed",
     "scss:watch": "node-sass src/style.scss --output public; node-sass src/style.scss --output public --watch",
-    "watch": "concurrently --kill-others --names 'js,scss' 'npm run js:watch' 'npm run scss:watch'",
-    "build": "npm run js; npm run scss"
+    "watch": "npm run clean; npm run css; concurrently --kill-others --names 'js,scss' 'npm run js:watch' 'npm run scss:watch'",
+    "build": "npm run clean; npm run css; npm run js; npm run scss"
   },
   "repository": {
     "type": "git",
