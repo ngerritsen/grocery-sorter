@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 const config = {
   entry: [
-    __dirname + '/src/main.js'
+    __dirname + '/client/main.js'
   ],
   output: {
     path: __dirname + '/public',
@@ -21,7 +21,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
+      template: 'client/index.ejs',
       title: 'Groceries'
     })
   ]

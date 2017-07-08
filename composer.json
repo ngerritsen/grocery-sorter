@@ -1,0 +1,13 @@
+{
+    "name": "ngerritsen/groceries",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.8"
+    },
+    "authors": [
+        {
+            "name": "Niels Gerritsen",
+            "email": "n.c.gerritsen@gmail.com"
+        }
+    ]
+}
