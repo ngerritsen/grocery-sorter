@@ -1,95 +1,33 @@
-import dragula from 'dragula';
-import parseList from './parse';
+import createModal from './modal';
+import createList from './list';
+import createPubSub from './pubSub';
+import createImportForm from './importForm';
+import createExporter from './exporter';
 
 window.addEventListener('DOMContentLoaded', main);
 
-let list = [];
+function main() { // eslint-disable-line max-statements
+  const pubSub = createPubSub();
 
-function main() {
-  const importFormEl = document.getElementById('importForm');
   const exportButtonEl = document.getElementById('exportButton');
-  const clipboardButtonEl = document.getElementById('clipboardButton');
-  const drake = dragula([document.getElementById('list')]);
+  const importButtonEl = document.getElementById('importButton');
 
-  drake.on('drop', updateList);
-  drake.on('drag', el => el.classList.add('active'));
-  drake.on('dragend', el => el.classList.remove('active'));
+  const importModal = createModal(document.getElementById('importModal'));
+  const exportModal = createModal(document.getElementById('exportModal'));
 
-  exportButtonEl.addEventListener('click', exportList);
-  clipboardButtonEl.addEventListener('click', copyExportToClipboard);
-  importFormEl.addEventListener('submit', (e) => {
-    e.preventDefault();
-    importList();
+  createExporter(document.getElementById('listExport'), pubSub);
+  createList(document.getElementById('list'), pubSub);
+  createImportForm(document.getElementById('importForm'), pubSub);
+
+  importButtonEl.addEventListener('click', importModal.open);
+  exportButtonEl.addEventListener('click', exportModal.open);
+
+  pubSub.subscribe('listUpdated', items => {
+    if (items.length > 0) {
+      exportButtonEl.removeAttribute('disabled');
+      return;
+    }
+
+    exportButtonEl.setAttribute('disabled', '');
   });
-}
-
-function importList() {
-  const importInputEl = document.getElementById('importInput');
-
-  list = parseList(importInputEl.value);
-
-  renderList();
-  updateExportButtonState();
-
-  importInputEl.value = '';
-  $('#importModal').modal('hide');
-}
-
-function renderList() {
-  const listEl = document.getElementById('list');
-  listEl.innerHTML = '';
-
-  list.forEach(item => {
-    listEl.appendChild(createListItem(item));
-  });
-};
-
-function createListItem(item) {
-  const listTemplate = document.getElementById('listItemTemplate');
-  const liOriginal = listTemplate.content.querySelector('li');
-  const liEl = document.importNode(liOriginal, true);
-  const badgeEl = liEl.querySelector('.js-badge');
-  const content = document.createTextNode(item.name);
-
-  liEl.insertBefore(content, badgeEl);
-  badgeEl.textContent = item.amount || 1;
-
-  return liEl;
-}
-
-function updateExportButtonState() {
-  const exportButtonEl = document.getElementById('exportButton');
-
-  if (list.length > 0) {
-    exportButtonEl.removeAttribute('disabled');
-    return;
-  }
-
-  exportButtonEl.setAttribute('disabled', false);
-}
-
-function exportList() {
-  const listExportEl = document.getElementById('listExport');
-
-  listExportEl.textContent = list.join('\n');
-}
-
-function updateList() {
-  const listEl = document.getElementById('list');
-  const listItems = Array.prototype.slice.call(listEl.getElementsByTagName('li'));
-
-  list = listItems.map(item => item.textContent);
-}
-
-function copyExportToClipboard() {
-  const listExportEl = document.getElementById('listExport');
-  const textarea = document.createElement('textarea');
-
-  textarea.textContent = listExportEl.textContent;
-  textarea.style.height = 'fixed';
-  document.body.appendChild(textarea);
-  textarea.select();
-
-  document.execCommand('copy');
-  document.body.removeChild(textarea);
 }

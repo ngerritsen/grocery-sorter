@@ -1,6 +1,6 @@
 export default function parseList(value) {
   const lines = value.split('\n')
-  let items = parseWith(lines, str => 
+  const items = parseWith(lines, str =>
     namedGroupMatch(str, /• (\d)x (.+)/, ['amount', 'name'])
   );
 
@@ -8,16 +8,16 @@ export default function parseList(value) {
     return items;
   }
 
-  return  parseWith(lines, str => (
+  return parseWith(lines, str =>
     namedGroupMatch(str, /(.+) (\d)/, ['name', 'amount']) ||
     { name: str, amount: 1 }
-  ));
+  );
 }
 
 function parseWith(lines, matcher) {
   return lines
     .map(matcher)
-    .filter(item => item);
+    .filter(item => item && item.name);
 }
 
 function namedGroupMatch(str, regex, captureGroups) {

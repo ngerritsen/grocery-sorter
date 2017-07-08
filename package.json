@@ -4,6 +4,7 @@
   "description": "Sorts groceries",
   "main": "main.js",
   "scripts": {
+    "test": "eslint ./src",
     "clean": "rm -Rf public; mkdir public",
     "css": "cp node_modules/dragula/dist/dragula.css public/dragula.css",
     "js": "NODE_ENV=production webpack",
@@ -31,6 +32,9 @@
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.5.2",
     "concurrently": "^3.5.0",
+    "eslint": "^4.1.1",
+    "eslint-config-ngerritsen": "^1.1.1",
+    "eslint-plugin-import": "^2.7.0",
     "html-webpack-plugin": "^2.29.0",
     "node-sass": "^4.5.3",
     "webpack": "^3.0.0"
@@ -38,9 +42,7 @@
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "bootstrap": "^4.0.0-alpha.6",
-    "dragula": "^3.7.2",
-    "jquery": "^3.2.1",
-    "tether": "^1.4.0"
+    "dragula": "^3.7.2"
   },
   "babel": {
     "presets": [

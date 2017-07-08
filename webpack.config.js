@@ -5,7 +5,6 @@ const webpack = require('webpack');
 
 const config = {
   entry: [
-    'bootstrap/dist/js/bootstrap.js',
     __dirname + '/src/main.js'
   ],
   output: {
@@ -16,7 +15,6 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         loader: 'babel-loader'
       }
     ],
@@ -25,11 +23,6 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       title: 'Groceries'
-    }),
-    new webpack.ProvidePlugin({
-      jQuery: "jquery",
-      $: "jquery",
-      Tether: 'tether'
     })
   ]
 };
