@@ -1,0 +1,19 @@
+CREATE TABLE section (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(64) NOT NULL UNIQUE,
+  color VARCHAR(6) NOT NULL UNIQUE,
+
+  UNIQUE KEY(name),
+  UNIQUE KEY(color),
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE grocery (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(128) NOT NULL,
+  section_id INT NOT NULL,
+
+  UNIQUE KEY(name),
+  PRIMARY KEY(id),
+  FOREIGN KEY (section_id) REFERENCES section(id)
+);

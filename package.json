@@ -14,7 +14,7 @@
     "watch": "npm run clean; npm run css; concurrently --kill-others --names 'js,scss,php' 'npm run js:watch' 'npm run scss:watch' 'npm run serve'",
     "build": "npm run clean; npm run css; npm run js; npm run scss",
     "serve": "cd public; php -S localhost:8080",
-    "mysql": "docker run --name groceries-mysql -e MYSQL_ROOT_PASSWORD=development -d mysql:tag5.7"
+    "mysql": "docker run --name groceries-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=development -d mysql:5.7"
   },
   "repository": {
     "type": "git",
