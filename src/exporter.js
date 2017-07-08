@@ -8,7 +8,7 @@ export default function createExporter(listExportEl, pubSub) {
 
   function updateExport(items) {
     listExportEl.textContent = items
-      .map(item => `${item.name} (${item.amount})`)
+      .map(item => `${item.amount}x ${item.name}`)
       .join('\n');
   }
 

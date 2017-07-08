@@ -1,7 +1,7 @@
 export default function parseList(value) {
   const lines = value.split('\n')
   const items = parseWith(lines, str =>
-    namedGroupMatch(str, /• (\d)x (.+)/, ['amount', 'name'])
+    namedGroupMatch(str, /^(?:• )?(\d)x (.+)/, ['amount', 'name'])
   );
 
   if (items.length > 0) {
