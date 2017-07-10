@@ -15,6 +15,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
+        include: __dirname + '/client',
         loader: 'babel-loader'
       }
     ],
