@@ -1,4 +1,4 @@
-import retrieveTemplate from './retrieveTemplate';
+import retrieveTemplate from '../functions/retrieveTemplate';
 
 export default function createModal(modalEl) {
   function open() {

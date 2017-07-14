@@ -1,4 +1,4 @@
-import parseList from './parseList';
+import parseList from '../functions/parseList';
 
 export default function createImportForm(importFormEl, sectionService, pubSub) {
   importFormEl.addEventListener('submit', (e) => {
@@ -11,8 +11,8 @@ export default function createImportForm(importFormEl, sectionService, pubSub) {
     const groceries = parseList(importInputEl.value);
 
     sectionService.group(groceries)
-      .then((groupedGroceries) => {
-        pubSub.publish('groceriesImported', groupedGroceries);
+      .then((groceryList) => {
+        pubSub.publish('groceriesImported', groceryList);
       });
 
     importInputEl.value = '';

@@ -1,8 +1,8 @@
 import dragula from 'dragula';
 
-import retrieveTemplate from './retrieveTemplate';
+import retrieveTemplate from '../functions/retrieveTemplate';
 
-export default function createList(listEl, pubSub) {
+export default function createGroceryList(listEl, pubSub) {
   init();
 
   function init() {
@@ -15,14 +15,14 @@ export default function createList(listEl, pubSub) {
     pubSub.subscribe('groceriesImported', render);
   }
 
-  function render(groupedList) {
+  function render(groceryList) {
     listEl.innerHTML = '';
 
-    groupedList.unresolvedGroceries.forEach((grocery) => {
+    groceryList.forEach((grocery) => {
       listEl.appendChild(createListItem(grocery));
     });
 
-    pubSub.publish('listUpdated', groupedList)
+    pubSub.publish('listUpdated', groceryList)
   }
 
   function getItems() {
