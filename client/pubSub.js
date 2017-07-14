@@ -3,7 +3,7 @@ export default function createPubSub() {
   let token = 0;
 
   function subscribe(event, handler) {
-    token = token += 1;
+    token += 1;
     subscribers = [...subscribers, { event, handler, token }]
   }
 

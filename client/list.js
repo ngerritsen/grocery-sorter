@@ -12,17 +12,17 @@ export default function createList(listEl, pubSub) {
     drake.on('drag', el => el.classList.add('active'));
     drake.on('dragend', el => el.classList.remove('active'));
 
-    pubSub.subscribe('listImported', render);
+    pubSub.subscribe('groceriesImported', render);
   }
 
-  function render(items) {
+  function render(groupedList) {
     listEl.innerHTML = '';
 
-    items.forEach(item => {
-      listEl.appendChild(createListItem(item));
+    groupedList.unresolvedGroceries.forEach((grocery) => {
+      listEl.appendChild(createListItem(grocery));
     });
 
-    pubSub.publish('listUpdated', items)
+    pubSub.publish('listUpdated', groupedList)
   }
 
   function getItems() {
@@ -33,11 +33,11 @@ export default function createList(listEl, pubSub) {
       }));
   }
 
-  function createListItem(item) {
+  function createListItem(grocery) {
     const liEl = retrieveTemplate('#listItemTemplate', 'li');
 
-    liEl.querySelector('.js-badge').textContent = item.amount || 1;
-    liEl.querySelector('.js-name').textContent = item.name;
+    liEl.querySelector('.js-badge').textContent = grocery.amount || 1;
+    liEl.querySelector('.js-name').textContent = grocery.name;
 
     return liEl;
   }

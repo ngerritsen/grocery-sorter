@@ -5,11 +5,12 @@ use Groceries\SectionController;
 use Slim\App;
 
 require __DIR__ . '/../vendor/autoload.php';
-$container = require(__DIR__ . '/../app/di.php');
+$container = require(__DIR__ . '/di.php');
 
 $app = $container->get(App::class);
 
 $app->get('/', HomeController::class . ':get');
-$app->get('/test', SectionController::class . ':post');
+$app->post('/sections/group', SectionController::class . ':group');
+$app->post('/sections', SectionController::class . ':store');
 
 $app->run();

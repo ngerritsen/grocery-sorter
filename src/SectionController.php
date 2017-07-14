@@ -3,21 +3,44 @@ declare(strict_types=1);
 
 namespace Groceries;
 
-use PDO;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class SectionController
 {
-    /** @var PDO */
-    private $pdo;
+    /** @var SectionService */
+    private $sectionService;
 
-    public function __construct(PDO $pdo) {
+    /** @var GroceryService */
+    private $groceryService;
 
-        $this->pdo = $pdo;
+    public function __construct(SectionService $sectionService, GroceryService $groceryService) {
+        $this->sectionService = $sectionService;
+        $this->groceryService = $groceryService;
     }
 
-    public function post()
+    public function group(Request $request, Response $response): Response
     {
-        $result = $this->pdo->query('SELECT * FROM grocery');
-        var_dump($result->fetch());
+        $groceries = $request->getParsedBody();
+
+        $groupedGroceries = $this->sectionService->group($groceries);
+
+        $response->getBody()->write(json_encode($groupedGroceries));
+
+        return $response;
+    }
+
+    public function store(Request $request, Response $response): Response
+    {
+        $section = $request->getParsedBody();
+        $groceries = $section['groceries'];
+
+        $sectionId = $this->sectionService->store($section['name'], $section['color']);
+
+        if (count($groceries) > 0) {
+            $this->groceryService->store($section['groceries'], $sectionId);
+        }
+
+        return $response->withStatus(200);
     }
 }

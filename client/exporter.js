@@ -6,9 +6,9 @@ export default function createExporter(listExportEl, pubSub) {
   clipboardButtonEl.addEventListener('click', copyExportToClipboard);
   pubSub.subscribe('listUpdated', updateExport);
 
-  function updateExport(items) {
-    listExportEl.textContent = items
-      .map(item => `${item.amount}x ${item.name}`)
+  function updateExport(groupedList) {
+    listExportEl.textContent = groupedList
+      .map(grocery => `${grocery.amount}x ${grocery.name}`)
       .join('\n');
   }
 

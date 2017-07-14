@@ -1,10 +1,13 @@
+CREATE DATABASE IF NOT EXISTS groceries;
+
+USE groceries;
+
 CREATE TABLE section (
   id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(64) NOT NULL UNIQUE,
-  color VARCHAR(6) NOT NULL UNIQUE,
+  name VARCHAR(64) NOT NULL,
+  color VARCHAR(6) NOT NULL,
 
   UNIQUE KEY(name),
-  UNIQUE KEY(color),
   PRIMARY KEY(id)
 );
 
@@ -17,3 +20,5 @@ CREATE TABLE grocery (
   PRIMARY KEY(id),
   FOREIGN KEY (section_id) REFERENCES section(id)
 );
+
+CREATE INDEX section_id ON grocery (section_id);

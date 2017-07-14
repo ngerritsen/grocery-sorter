@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
+use Groceries\GroceryService;
 use Groceries\SectionController;
+use Groceries\SectionService;
 use League\Container\Container;
 use Slim\App;
 use Slim\CallableResolver;
@@ -17,13 +19,17 @@ $container->add(App::class, function () use ($config, $container) {
 
 $container->add(PDO::class, function () use ($config) {
     $mysqlConfig = $config['mysql'];
-    return new PDO(
+    $pdo = new PDO(
         'mysql:host=' . $mysqlConfig['host'] . ';dbname=groceries',
         $mysqlConfig['user'],
         $mysqlConfig['password']
     );
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    return $pdo;
 });
 
-$container->add(SectionController::class)->withArgument(PDO::class);
+$container->add(SectionService::class)->withArgument(PDO::class);
+$container->add(GroceryService::class)->withArgument(PDO::class);
+$container->add(SectionController::class)->withArguments([SectionService::class, GroceryService::class]);
 
 return $container;
