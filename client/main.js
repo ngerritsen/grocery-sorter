@@ -1,5 +1,6 @@
 import createPubSub from './pubSub';
 import createSectionService from './sectionService';
+import createGroceryService from './groceryService';
 
 import createModal from './components/modal';
 import createGroceryList from './components/groceryList';
@@ -7,8 +8,9 @@ import createImportForm from './components/importForm';
 import createExporter from './components/exporter';
 import createExportButton from './components/exportButton';
 
-const sectionService = createSectionService();
 const pubSub = createPubSub();
+const sectionService = createSectionService();
+createGroceryService(pubSub);
 
 window.addEventListener('DOMContentLoaded', main);
 

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Groceries\GroceryController;
 use Groceries\GroceryService;
 use Groceries\SectionController;
 use Groceries\SectionService;
@@ -31,5 +32,6 @@ $container->add(PDO::class, function () use ($config) {
 $container->add(SectionService::class)->withArgument(PDO::class);
 $container->add(GroceryService::class)->withArgument(PDO::class);
 $container->add(SectionController::class)->withArguments([SectionService::class, GroceryService::class]);
+$container->add(GroceryController::class)->withArgument(GroceryService::class);
 
 return $container;

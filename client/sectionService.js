@@ -15,7 +15,7 @@ export default function createSectionService() {
   }
 
   function decorateWithAmounts(groceries) {
-    return results => results.map(res => ({
+    return results => results['groceries'].map(res => ({
       ...res,
       amount: groceries.find(g => g.name === res.name).amount
     }));

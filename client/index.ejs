@@ -18,17 +18,25 @@
   </header>
 
   <h2>List</h2>
-  <p>
-    <ul class="list-group" id="list">
-      <span class="text-muted">Nothing there yet!</span>
-    </ul>
-  </p>
+  <ul class="list-group" id="list">
+    <span class="text-muted">Nothing there yet!</span>
+  </ul>
 </main>
 
 <template id="listItemTemplate">
-  <li class="list-group-item list-item justify-content-between">
+  <li class="list-group-item list-item justify-content-between js-grocery">
     <span class="js-name"></span>
     <span class="badge badge-pill badge-info js-badge"></span>
+  </li>
+</template>
+
+<template id="sectionTemplate">
+  <li class="list-group-item flex-column align-items-start list-item p-3 js-section">
+    <h6 class="mb-3">
+      <span class="js-section-bullet mr-1">•</span>
+      <span class="font-weight-bold js-section-title"></span>
+    </h6>
+    <ul class="list-group js-section-items w-100 d-block"></ul>
   </li>
 </template>
 
@@ -36,7 +44,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Import</h4>
+        <h3 class="modal-title">Import</h3>
         <button type="button" class="close" data-close-modal aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -58,7 +66,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Export</h4>
+        <h3 class="modal-title">Export</h3>
         <button type="button" class="close" data-close-modal aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

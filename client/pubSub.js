@@ -8,6 +8,10 @@ export default function createPubSub() {
   }
 
   function publish(event, data) {
+    if (process.env.NODE_ENV !== 'production') { // eslint-disable-line no-undef
+      console.info(event, data); // eslint-disable-line no-console
+    }
+
     subscribers
       .filter(sub => sub.event === event)
       .forEach(sub => sub.handler(data));

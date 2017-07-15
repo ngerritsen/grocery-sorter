@@ -23,24 +23,14 @@ class SectionController
     {
         $groceries = $request->getParsedBody();
 
-        $groupedGroceries = $this->sectionService->group($groceries);
+        $groupedGroceries = $this->groceryService->group($groceries);
+        $allSections = $this->sectionService->getAll();
 
-        $response->getBody()->write(json_encode($groupedGroceries));
+        $response->getBody()->write(json_encode([
+            'groceries' => $groupedGroceries,
+            'sections' => $allSections
+        ]));
 
         return $response;
-    }
-
-    public function store(Request $request, Response $response): Response
-    {
-        $section = $request->getParsedBody();
-        $groceries = $section['groceries'];
-
-        $sectionId = $this->sectionService->store($section['name'], $section['color']);
-
-        if (count($groceries) > 0) {
-            $this->groceryService->store($section['groceries'], $sectionId);
-        }
-
-        return $response->withStatus(200);
     }
 }

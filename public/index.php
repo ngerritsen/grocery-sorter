@@ -1,5 +1,6 @@
 <?php
 
+use Groceries\GroceryController;
 use Groceries\HomeController;
 use Groceries\SectionController;
 use Slim\App;
@@ -11,6 +12,7 @@ $app = $container->get(App::class);
 
 $app->get('/', HomeController::class . ':get');
 $app->post('/sections/group', SectionController::class . ':group');
-$app->post('/sections', SectionController::class . ':store');
+$app->post('/groceries/{grocery}', GroceryController::class . ':move');
+$app->delete('/groceries/{grocery}', GroceryController::class . ':delete');
 
 $app->run();
