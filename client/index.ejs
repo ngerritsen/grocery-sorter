@@ -6,25 +6,27 @@
 <link rel="stylesheet" href="/style.css">
 <link rel="stylesheet" href="/dragula.css">
 
-<main class="container-fluid">
-  <header class="jumbotron">
-    <h1 class="display-4"><%= htmlWebpackPlugin.options.title %></h1>
+<body class="m-0 p-0 pt-2 pt-md-3">
+<main class="container-fluid pl-md-3 pr-md-3 pl-2 pr-2 mb-4">
+  <header class="jumbotron p-4 mb-3">
+    <h1 class="mb-1"><%= htmlWebpackPlugin.options.title %></h1>
     <p class="lead">Import the raw list, sort and export.</p>
 
-    <hr class="my-4">
+    <hr class="my-3">
 
     <button class="btn btn-primary btn-block" id="importButton">Import</button>
     <button class="btn btn-secondary btn-block" id="exportButton" disabled>Export</button>
   </header>
 
-  <h2>List</h2>
-  <ul class="list-group" id="list">
+  <!--h2 class="mb-3">List</h2-->
+  <ul class="list-group mb-3" id="list">
     <span class="text-muted">Nothing there yet!</span>
   </ul>
+  <button class="btn btn-success btn-block" id="addSectionButton" style="display: none">+ Add section</button>
 </main>
 
 <template id="listItemTemplate">
-  <li class="list-group-item list-item justify-content-between js-grocery">
+  <li class="list-group-item list-item justify-content-between js-grocery pl-3 pr-3 pt-2 pb-2">
     <span class="js-name"></span>
     <span class="badge badge-pill badge-info js-badge"></span>
   </li>
@@ -32,11 +34,16 @@
 
 <template id="sectionTemplate">
   <li class="list-group-item flex-column align-items-start list-item p-3 js-section">
-    <h6 class="mb-3">
-      <span class="js-section-bullet mr-1">•</span>
-      <span class="font-weight-bold js-section-title"></span>
-    </h6>
-    <ul class="list-group js-section-items w-100 d-block"></ul>
+    <div>
+      <h6 class="mb-3">
+        <span class="js-section-bullet section-bullet mr-1"></span>
+        <span class="font-weight-bold js-section-title"></span>
+      </h6>
+      <button type="button" class="close section-delete js-section-delete" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <ul class="list-group js-section-items w-100 d-block section-list"></ul>
   </li>
 </template>
 
@@ -56,6 +63,32 @@
             <textarea class="form-control input" id="importInput"></textarea>
           </div>
           <button class="btn btn-primary" type="submit" data-close-modal>Import</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addSectionModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add section</h3>
+        <button type="button" class="close" data-close-modal aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-in-modal" id="addSectionForm">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control input" id="name">
+          </div>
+          <div class="form-group">
+            <label for="color">Color <small>(Hex without '#')</small></label>
+            <input type="text" class="form-control input" id="color">
+          </div>
+          <button class="btn btn-primary" type="submit">Add</button>
         </form>
       </div>
     </div>
@@ -82,3 +115,4 @@
 <template id="modalBackdropTemplate">
   <div id="modalBackdrop" class="modal-backdrop show"></div>
 </template>
+</body>

@@ -17,6 +17,7 @@ module.exports = {
     'no-magic-numbers': 0,
     'semi': 0,
     'operator-linebreak': [2, 'after'],
-    'arrow-parens': [2, 'as-needed', { requireForBlockBody: true }]
+    'arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
+    'max-statements': [2, 11]
   }
 };

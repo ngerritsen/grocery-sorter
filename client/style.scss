@@ -46,3 +46,30 @@ body {
 textarea {
   min-height: 10rem;
 }
+
+.section-bullet {
+  position: relative;
+  display: inline-block;
+  border-radius: 0.35rem;
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+.section-delete {
+  position: absolute;
+  right: 0.9rem;
+  top: 0.7rem;
+  font-size: 1.2rem;
+}
+
+.section-list:empty {
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  padding: 0.3rem 0.5rem;
+
+  &:before {
+    content: 'Drop groceries here';
+    color: #4b5257;
+    font-size: 0.8rem;
+  }
+}

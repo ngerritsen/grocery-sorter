@@ -12,21 +12,19 @@ export default function createGroceryList(listEl, pubSub) {
 
   function init() {
     pubSub.subscribe('groceriesImported', render);
+    pubSub.subscribe('sectionAdded', addSection);
   }
 
-  function render(groceryList) {
+  function render({ groceries, sections }) {
     listEl.innerHTML = '';
 
-    const [groceriesWithSection, groceries] = partion(groceryList, grocery => grocery.section);
-    const sections = groupBy(groceriesWithSection, 'section');
-
     Object.keys(sections).forEach((section) => {
-      listEl.appendChild(createSection(section, sections[section]));
+      listEl.appendChild(createSection(sections[section]));
     });
 
     insertGroceryItems(listEl, groceries);
 
-    pubSub.publish('listUpdated', groceryList);
+    pubSub.publish('groceryListUpdated', getItems());
 
     initDragDrop();
   }
@@ -44,11 +42,6 @@ export default function createGroceryList(listEl, pubSub) {
   }
 
   function handleDragDropEvents(sectionDrake, groceryDrake) {
-    sectionDrake.on('drop', () => {
-      pubSub.publish('sectionOrderUpdated', getSections());
-      pubSub.publish('groceryListUpdated', getItems());
-    });
-
     groceryDrake.on('drop', (el, target) => {
       const sectionEl = target.closest('.js-section');
       const grocery = el.querySelector('.js-name').textContent;
@@ -59,7 +52,7 @@ export default function createGroceryList(listEl, pubSub) {
     });
 
     sectionDrake.on('drop', () => {
-      pubSub.publish('sectionOrderUpdated', getSections());
+      pubSub.publish('sectionsReordered', getSections());
       pubSub.publish('groceryListUpdated', getItems());
     });
 
@@ -82,22 +75,28 @@ export default function createGroceryList(listEl, pubSub) {
       .map(sectionEl => sectionEl.querySelector('.js-section-title').textContent);
   }
 
-  function getItems() {
-    return Array.from(listEl.querySelectorAll('.js-grocery'))
+  function getItems(el = listEl) {
+    return Array.from(el.querySelectorAll('.js-grocery'))
       .map(liEl => ({
         name: liEl.querySelector('.js-name').textContent,
         amount: Number(liEl.querySelector('.js-badge').textContent)
       }));
   }
 
-  function createSection(section, groceries) {
+  function createSection(section) {
     const sectionEl = retrieveTemplate('#sectionTemplate', 'li');
-    const { color } = groceries[0];
+    const itemsEl = sectionEl.querySelector('.js-section-items');
 
-    sectionEl.querySelector('.js-section-title').textContent = section;
-    sectionEl.querySelector('.js-section-bullet').style.setProperty('color', color);
+    sectionEl.querySelector('.js-section-title').textContent = section.name;
+    sectionEl.querySelector('.js-section-bullet').style.backgroundColor = section.color;
 
-    insertGroceryItems(sectionEl.querySelector('.js-section-items'), groceries);
+    sectionEl.querySelector('.js-section-delete').addEventListener('click', () => {
+      insertGroceryItems(listEl, getItems(itemsEl));
+      sectionEl.parentNode.removeChild(sectionEl);
+      pubSub.publish('sectionDeleted', section.name);
+    });
+
+    insertGroceryItems(itemsEl, section.groceries);
 
     return sectionEl;
   }
@@ -113,5 +112,27 @@ export default function createGroceryList(listEl, pubSub) {
 
   function insertGroceryItems(el, groceries) {
     groceries.forEach(grocery => el.appendChild(createListItem(grocery)));
+  }
+
+  function addSection({ name, color }) {
+    const sectionEl = createSection({ name, color, groceries: [] });
+    const sections = Array.from(listEl.querySelectorAll('.js-section'));
+
+    if (sections.length === 0) {
+      listEl.insertBefore(sectionEl, listEl.firstChild);
+    }
+
+    insertAfter(sectionEl, sections[sections.length - 1]);
+  }
+
+  function insertAfter(newElement, targetElement) {
+    const parent = targetElement.parentNode;
+
+    if (parent.lastChild === targetElement) {
+      parent.appendChild(newElement);
+      return;
+    }
+
+    parent.insertBefore(newElement, targetElement.nextSibling);
   }
 }

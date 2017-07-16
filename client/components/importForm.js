@@ -10,9 +10,9 @@ export default function createImportForm(importFormEl, sectionService, pubSub) {
     const importInputEl = document.getElementById('importInput');
     const groceries = parseList(importInputEl.value);
 
-    sectionService.group(groceries)
-      .then((groceryList) => {
-        pubSub.publish('groceriesImported', groceryList);
+    sectionService.populateSections(groceries)
+      .then((resolvedGroceries) => {
+        pubSub.publish('groceriesImported', resolvedGroceries);
       });
 
     importInputEl.value = '';

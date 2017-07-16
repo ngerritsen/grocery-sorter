@@ -28,5 +28,5 @@ export default function createModal(modalEl) {
     return modalEl.querySelectorAll('[data-close-modal]');
   }
 
-  return { open };
+  return { open, close };
 }

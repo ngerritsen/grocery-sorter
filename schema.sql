@@ -6,8 +6,10 @@ CREATE TABLE section (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL,
   color VARCHAR(6) NOT NULL,
+  position INT,
 
   UNIQUE KEY(name),
+  UNIQUE KEY(position),
   PRIMARY KEY(id)
 );
 

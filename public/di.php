@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use Groceries\GroceryController;
-use Groceries\GroceryService;
-use Groceries\SectionController;
-use Groceries\SectionService;
+use Groceries\Service\Grocery as GroceryService;
+use Groceries\Service\Section as SectionService;
+use Groceries\Controller\Grocery as GroceryController;
+use Groceries\Controller\Section as SectionController;
 use League\Container\Container;
 use Slim\App;
 use Slim\CallableResolver;

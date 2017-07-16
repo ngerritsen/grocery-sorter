@@ -1,25 +1,52 @@
 import jsonRequest from './functions/jsonRequest';
 
-export default function createSectionService() {
-  function group(groceries) {
-    return jsonRequest('POST', '/sections/group', getNames(groceries))
+// eslint-disable-next-line max-statements
+export default function createSectionService(pubSub) {
+  pubSub.subscribe('sectionsReordered', reorder);
+  pubSub.subscribe('sectionDeleted', deleteSection);
+  pubSub.subscribe('sectionAdded', addSection);
+
+  function populateSections(groceries) {
+    return jsonRequest('POST', '/sections/populate', getNames(groceries))
       .then(decorateWithAmounts(groceries));
   }
 
-  function store(sections) {
-    return jsonRequest('POST', '/sections', sections);
+  function reorder(sections) {
+    return jsonRequest('POST', '/sections/reorder', sections);
+  }
+
+  function deleteSection(name) {
+    return jsonRequest('DELETE', '/sections/' + name);
+  }
+
+  function addSection({ name, color }) {
+    return jsonRequest('POST', '/sections/' + name, { color });
   }
 
   function getNames(groceries) {
-    return groceries.map(g => g.name);
+    return groceries.map(grocery => grocery.name);
   }
 
-  function decorateWithAmounts(groceries) {
-    return results => results['groceries'].map(res => ({
-      ...res,
-      amount: groceries.find(g => g.name === res.name).amount
+  function decorateWithAmounts(groceriesWithAmounts) {
+    return result => ({
+      groceries: decorateGroceriesWithAmounts(result.groceries, groceriesWithAmounts),
+      sections: decorateSectionsWithAmounts(result.sections, groceriesWithAmounts)
+    });
+  }
+
+  function decorateSectionsWithAmounts(sections, groceriesWithAmounts) {
+    return sections.map(section => ({
+      ...section,
+      groceries: decorateGroceriesWithAmounts(section.groceries, groceriesWithAmounts)
     }));
   }
 
-  return { group, store };
+  function decorateGroceriesWithAmounts(groceries, groceriesWithAmounts) {
+    return groceries.map(grocery => ({
+      ...grocery,
+      amount: groceriesWithAmounts.find(gwa => gwa.name === grocery.name).amount
+    }));
+  }
+
+  return { populateSections, addSection };
 }
